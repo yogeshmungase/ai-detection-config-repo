@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+
+        - id: image-service
+          uri: lb://IMAGE-SERVICE
+          predicates:
+            - Path=/api/images/**
+
+        - id: aggregator-service
+          uri: lb://AGGREGATOR-SERVICE
+          predicates:
+            - Path=/api/results/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
